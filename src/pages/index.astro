@@ -1,0 +1,70 @@
+---
+// src/pages/index.astro
+import { getRecords } from '../airtable.js';
+
+// get stylesheets
+import '../styles/rosterTemplate.css';
+import '../styles/appStyling.css';
+
+
+const records = await getRecords('Roster');
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <head>
+    <title>AirTable and Astro</title>
+  </head>
+  <body>
+    
+	<!-- Container -->
+	<main>
+
+		<!-- Each record template -->
+		{records.map(record => (
+
+		<figure class="card"
+				style={`border-color:${record.fields.color}`}>
+	  
+	  		<img src={record.fields.urlimage}/>
+
+		  <blockquote>
+			{record.fields.quote}
+		  </blockquote>
+	  
+		  <figcaption>
+	  
+			<h1>{record.fields.name}</h1>
+	  
+			<p class="emoji">This emjoi best desribes me: <span>{record.fields.emoji}</span></p>
+			<p class="weird">How am I weird? <span>{record.fields.weird}</span></p>
+			<p class="superpower">My superpower is: <span>{record.fields.superpower}</span></p>
+			<p class="karaoke">My karaoke jam is: <span>{record.fields.karaoke}</span></p>
+	  
+			<h2>Favorites</h2>
+			<ul>
+			  <li class="color">CSS color name: <span>{record.fields.color}</span></li>
+			  <li class="software">Software Tool: <span>{record.fields.software}</span></li>
+			  <li class="character">Fictional Character: <span>{record.fields.character}</span></li>
+			  <li class="musicalArtist">Musical Artist: <span>{record.fields.musicalArtist}</span></li>
+			  <li class="comfortFood">Comfort Food: <span>{record.fields.comfortFood}</span></li>
+			</ul>
+	  
+		  </figcaption>
+		</figure>
+	
+		))}
+	  </main>
+
+		
+    </ul>
+</body>
+</html>
